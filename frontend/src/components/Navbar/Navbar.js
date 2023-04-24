@@ -16,23 +16,23 @@ import AdbIcon from "@mui/icons-material/Adb";
 
 
 
-const settings = [
-  {
-    link: "/profile",
-    name: "Profile",
-  },
-  {
-    link: "/userinfo",
-    name: "Dashboard",
-  },
-  {
-    link: "/",
-    name: "Logout",
-  },
-];
 
 const NavBar = () => {
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const user = JSON.parse(localStorage.getItem("userInfo")).userInf;
+  const settings = [
+    {
+      link: "/profile",
+      name: "Profile",
+    },
+    {
+      link: user.role==="driver" ? "/driverinfo" : "/userinfo",
+      name: "Dashboard",
+    },
+    {
+      link: "/",
+      name: "Logout",
+    },
+  ];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 

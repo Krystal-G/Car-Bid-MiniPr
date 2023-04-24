@@ -26,21 +26,21 @@ import DriverList from "./pages/driverlist";
 
 function App() {
   // const {} = React.useContext(MainContext);
-  const user = JSON.parse(localStorage.getItem("userInfo")).userInf;
+  const user = JSON.parse(localStorage.getItem("userInfo"));
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/corpac" element={<CorporateAccountsLandingPage />} />
       {!user && <Route path="/login" element={<Auth />} />}
-      {!user.user.organization && <Route path="/corpacauth" element={<CorporateAccountAuth />} />}
-      {user.role==="passenger" && <Route path="/userinfo" element={<UserInfo />} />}
-      {user.role==="driver" && <Route path="/driverinfo" element={<DriverInfo />} />}
+      {!user?.userInf.user.organization && <Route path="/corpacauth" element={<CorporateAccountAuth />} />}
+      {user?.userInf.role==="passenger" && <Route path="/userinfo" element={<UserInfo />} />}
+      {user?.userInf.role==="driver" && <Route path="/driverinfo" element={<DriverInfo />} />}
       {user && <Route path="/profile" element={<Profile />} />}
-      {!user.user.isAdmin && <Route path="/createorg" element={<CorporateAccountAuthForCreate />} />}
+      {!user?.userInf.user.isAdmin && <Route path="/createorg" element={<CorporateAccountAuthForCreate />} />}
 
-      {user.user.isAdmin && <Route path="/admindashboard" element={<AdminDashboard />} />}
-      {user.user.isAdmin && <Route path="/employeelist" element={<EmployeeList />} />}
-      {user.user.isAdmin && <Route path="/driverlist" element={<DriverList />} />}
+      {user?.user.isAdmin && <Route path="/admindashboard" element={<AdminDashboard />} />}
+      {user?.user.isAdmin && <Route path="/employeelist" element={<EmployeeList />} />}
+      {user?.user.isAdmin && <Route path="/driverlist" element={<DriverList />} />}
 
     </Routes>
 
