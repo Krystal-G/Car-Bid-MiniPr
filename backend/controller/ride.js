@@ -67,13 +67,16 @@ exports.getRidesByUserId = async (req, res, next) => {
             return res.status(404).json({ error: 'User not found' });
         }
         const ride = await Ride.findById(user.rideAssigned);
+        if(!ride){
+            return res.status(404).json({ error: 'User not assigned to any ride' });
+        }
         const userObj = [];
         for(let i=0;i<ride.passengers.length;i++){
             userObj.push(await User.findById(ride.passengers[i]));
         }
         const driver = await Driver.findById(ride.driver);
         
-        return res.status(200).json({driverDetails : driver,users: userObj});
+        return res.status(200).json({driverDetails : driver,pickupLocation: user.pickupLocation,pickupTime: user.pickupTime,users: userObj});
     } catch (error) {
         // console.log(error);
         next(error);

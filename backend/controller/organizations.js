@@ -44,7 +44,7 @@ exports.joinDriverToOrganization = async (req, res, next) => {
     await driver.save();
 
     // Return success response
-    res.status(201).json({ message: 'Driver added to organization' });
+    res.status(201).json({ message: 'Driver added to organization' ,user:driver,organization});
   } catch (error) {
     // Handle errors
     next(error);
@@ -87,7 +87,7 @@ exports.joinUserToOrganization = async (req, res, next) => {
     await user.save();
 
     // Return success response
-    res.status(201).json({ message: 'User added to organization' });
+    res.status(201).json({ message: 'User added to organization' , user,organization});
   } catch (error) {
     // Handle errors
     next(error);
@@ -144,14 +144,8 @@ exports.createOrganization = async (req, res) => {
     // Populate admin field with the actual User document
 
     res.json({
-      userId: user._id,
-      organizationId: newOrg._id,
-      name: newOrg.name,
-      description: newOrg.description,
-      address: newOrg.address,
-      admin: populatedOrg.admin,
-      employees: newOrg.employees,
-      orgTime: newOrg.orgTime
+      message: "Organization created successfully",
+      user
     });
   } catch (error) {
     console.error(error);
@@ -202,10 +196,10 @@ exports.getOrganizations = async (req, res, next) => {
 
 
 exports.getRides = async (req, res, next) => {
-  const organizationId = req.params.id;
-  // console.log(organizationId);
+  const {id} = req.params;
+  console.log(id);
   try {
-    const organization = await Organization.findById(organizationId);
+    const organization = await Organization.findById(id);
     if (!organization) {
       return res.status(404).json({ message: 'Organization not found' });
     }
@@ -213,7 +207,27 @@ exports.getRides = async (req, res, next) => {
     const result = [];
     //iterate through rides array and find the ride details
     for (let i = 0; i < rides.length; i++) {
-      const ride = await Ride.findById(rides[i]);
+      const rideX = await Ride.findById(rides[i]);
+      const driver = await Driver.findById(rideX.driver);
+      let name = "";
+      let licensePlate = "";
+      if(driver) {
+        name = driver.name,
+        licensePlate = driver.licensePlate
+      }
+
+      const passengers = [];
+      for(let j = 0; j < rideX.passengers.length; j++) {
+        const passenger = await User.findById(rideX.passengers[j]);
+        passengers.push({name: passenger.name,
+          pickUpLocation: passenger.pickupLocation,
+          pickupTime: passenger.pickupTime});
+      }
+      const ride = {
+        driverName: name,
+        licensePlate: licensePlate,
+        passengers: passengers,
+      };
       result.push(ride);
     }
     console.log(result);
@@ -325,7 +339,7 @@ exports.assignRides = async (req, res, next) => {
           apiInstance.sendTransacEmail(msg).then(function (data) {
             console.log('API called successfully. Returned data: ' + data);
           }, function (error) {
-            console.error(error);
+            console.error("Unable to send email", error);
           });
         }
       }
@@ -336,7 +350,7 @@ exports.assignRides = async (req, res, next) => {
     await organization.save();
     return res.status(200).json({ message: 'Rides assigned successfully', rides: organization.rides });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 }

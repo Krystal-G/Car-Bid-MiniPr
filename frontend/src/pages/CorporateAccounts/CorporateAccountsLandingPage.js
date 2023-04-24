@@ -49,7 +49,7 @@ const CorporateAccountsLandingPage = () => {
                   fontWeight: "600",
                   backgroundColor: "#8330C2",
                   color: "white",
-                  borderRadius: "10px",
+                  borderRadius: "70px",
                   width: "fit-content",
                   fontSize: { xs: "12px", sm: "15px", md: "15px" },
                   p: "20px",
@@ -70,7 +70,7 @@ const CorporateAccountsLandingPage = () => {
                   fontWeight: "600",
                   borderColor: "#8330C2",
                   color: "#8330C2",
-                  borderRadius: "10px",
+                  borderRadius: "70px",
                   width: "fit-content",
                   fontSize: { xs: "12px", sm: "15px", md: "15px" },
                   p: "20px",
@@ -97,7 +97,7 @@ const CorporateAccountsLandingPage = () => {
             },
             transformOrigin: {
               xs: "initial",
-              md: "top left",
+              md: "top right",
             },
             height: { xs: "0", md: "100vh" },
           }}

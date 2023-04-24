@@ -15,21 +15,17 @@ import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = [
   {
-    link: "/corpac",
+    link: "/#section1",
     name: "Features",
   },
   {
-    link: "/",
+    link: "/#section2",
     name: "Our Team",
   },
   {
-    link: "/",
-    name: "Logout",
+    link: localStorage.length? "/":"/login",
+    name: localStorage.length?"Logout":"Login",
   },
-  {
-    link: "/login",
-    name: "Login"
-  }
 ]
 const settings = [
   {
@@ -94,7 +90,7 @@ const HomePageNavbar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            <img height={"70px"} src={require("./logo.png")}/>
           </Typography>
 
           <Box
@@ -143,7 +139,7 @@ const HomePageNavbar = () => {
               ))}
             </Menu>
           </Box>
-          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr:'0',p:'0' }} /> */}
+          
           <Typography
             variant="h5"
             noWrap
@@ -153,7 +149,7 @@ const HomePageNavbar = () => {
               mr: "auto",
               ml: "auto",
               display: { xs: "flex", md: "none" },
-              flexGrow: 1,
+              flexGrow: 5,
               fontFamily: "inherit",
               fontWeight: 700,
               letterSpacing: ".3rem",
@@ -161,11 +157,13 @@ const HomePageNavbar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+          <Link href="/">
+            <img height={"70px"} src={require("./logo.png")}/>
+          </Link>
           </Typography>
           <Box
             sx={{
-              flexGrow: 1,
+              flexGrow: 0.75,
               display: { xs: "none", md: "flex" },
               justifyContent: "center",
             }}
@@ -181,7 +179,7 @@ const HomePageNavbar = () => {
               }}
             >
               <Link
-                href="/corpac"
+                href="/#section1"
                 sx={{
                   fontFamily: "inherit",
                   mr: 2,
@@ -192,7 +190,7 @@ const HomePageNavbar = () => {
                 Features
               </Link>
               <Link
-                href="#"
+                href="/#section2"
                 sx={{
                   fontFamily: "inherit",
                   textDecoration: "none",
@@ -240,7 +238,8 @@ const HomePageNavbar = () => {
               ))}
             </Menu>
           </Box>: 
-          <Box sx={{ flexGrow: 0, marginLeft: 'auto', alignItems:"flex-end" }}>
+          <Box sx={{ flexGrow: 0, marginLeft: 'auto', alignItems:"flex-end" ,
+          display: ['none', 'none', 'flex']}}>
               <Link href="/login" sx={{textDecoration:'none'}}>
                 <Button
                   sx={{

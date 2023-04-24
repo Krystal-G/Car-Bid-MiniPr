@@ -10,18 +10,19 @@ import { Button } from '@mui/material';
 
 const ListOfOrgs = () => {
 const {getAllOrg,allOrgDetails,loading,joinDriverToOrg} = MainState();
+const CurrentUser = JSON.parse(localStorage.getItem("userInfo"));
 const onClickJoin = (e) =>
 {
-  const CurrentUser = JSON.parse(localStorage.getItem("userInfo"));
-  const userId = CurrentUser.user.data.user._id;
-  console.log(userId)
+  
+  const userId = CurrentUser.userInf.user._id;
+  // console.log(userId)
   joinDriverToOrg({
     driverId:userId,
     organizationName:e
   })
 }
     useEffect(() =>
-    {
+    { 
         getAllOrg();
     },[])
     // console.log(allOrgDetails)
@@ -36,7 +37,7 @@ const onClickJoin = (e) =>
     return (
       <div>
         {allOrgDetails.map((org) => (
-          <Accordion key={org._id} disabled={org.orgTime === org.minStartTime}>
+          <Accordion key={org._id} disabled={org.orgTime === org.minStartTime || CurrentUser.userInf.user.organizations.find((organization) => organization._id === org._id) !== null}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"

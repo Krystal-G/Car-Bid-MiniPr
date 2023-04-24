@@ -5,11 +5,7 @@ import ReCard from "./ReCard";
 import { MainState } from "../../context/MainContext";
 
 const RideShareInfo = () => {
-  const {getRidesById,loading,allRides} = MainState();
-  useEffect(() =>
-  {
-    getRidesById();
-  },[])
+  const {loading,userRideInfo,orgDetails} = MainState();
   if(loading)
   {
     return (
@@ -22,23 +18,34 @@ const RideShareInfo = () => {
     </ReCard>
     );
   }
-  const rideObj = {
-    Name: allRides.name,
-    DriverContact: allRides.DriverContact
+  if(userRideInfo===null){
+    return (
+      <ReCard>
+      <CardHeader sx={{ textAlign: "left" }} title="Ride Info" />
+      <Divider variant="middle" />
+      <CardContent>
+      No Ride
+      </CardContent>
+    </ReCard>
+    );
   }
+  // const userRideInfo driverDetails.= {
+  //   Name: allRides.name,
+  //   DriverContact: allRides.DriverContact
+  // }
   return (
     <ReCard>
       <CardHeader sx={{ textAlign: "left" }} title="Ride Info" />
       <Divider variant="middle" />
       <CardContent>
-          {/* <Text first="Driver Name" second={rideObj.DriverName} />
-          <Text first="Driver Contact" second={rideObj.DriverContact} />
-          <Text first="Car No" second={rideObj.CarNo} />
-          <Text first="Car Model" second={rideObj.CarModel} />
-          <Text first="Pickup Location" second={rideObj.PickupLocation} />
-          <Text first="Drop Location" second={rideObj.DropLocation} />
-          <Text first="Pickup Time" second={rideObj.PickupTime} />
-          <Text first="Drop Time" second={rideObj.DropTime} /> */}
+          <Text first="Driver Name" second={userRideInfo.driverDetails.name} />
+          <Text first="Driver Contact" second={userRideInfo.driverDetails.phoneNo} />
+          <Text first="Car No" second={userRideInfo.driverDetails.licensePlate} />
+          <Text first="Car Model" second={userRideInfo.driverDetails.carModel} />
+          <Text first="Pickup Location" second={userRideInfo.pickupLocation} />
+          <Text first="Drop Location" second={orgDetails.name} />
+          <Text first="Pickup Time" second={userRideInfo.pickupTime} />
+          <Text first="Drop Time" second={orgDetails.orgTime} />
       </CardContent>
     </ReCard>
   );

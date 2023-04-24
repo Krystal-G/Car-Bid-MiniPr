@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
+
 
 // Load environment variables
 dotenv.config();
@@ -10,7 +12,7 @@ const app = express();
 
 // Parse request bodies as JSON
 app.use(express.json());
-
+app.use(cors());
 // Error handling middleware function
 // app.use((err, req, res, next) => {
 //   console.error(err);

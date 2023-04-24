@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import {
   CardHeader,
   CardContent,
@@ -11,27 +11,57 @@ import {
   Avatar,
 } from "@mui/material";
 import ReCard from "./ReCard";
-const steps = [
-  {
-    label: "Manas Agarwal",
-    description: "from Gomti Nagar at 10:00 AM",
-  },
-  {
-    label: "Rahul",
-    description: "from IIIT Lucknow at 11:00 AM",
-  },
+import { MainState } from "../../context/MainContext";
 
-  {
-    label: "Jai",
-    description: "from pallasio at 11:15 AM",
-  },
-  {
-    label: "Rahul",
-    description: "from IIIT Lucknow at 11:30 AM",
-  },
-];
 
 const RideInfo = () => {
+  const {userRideInfo,loading} = MainState();
+  const [steps,setSteps] = useState([]);
+  useEffect(() => {
+    if(userRideInfo !== null){
+      const temp = [
+        {
+          label: userRideInfo.users[0].name,
+          description: `from ${userRideInfo.users[0].pickupLocation} at ${userRideInfo.users[0].pickupTime}`,
+        },
+        {
+          label: userRideInfo.users[1].name,
+          description: `from ${userRideInfo.users[1].pickupLocation} at ${userRideInfo.users[1].pickupTime}`,
+        },
+        {
+          label: userRideInfo.users[2].name,
+          description: `from ${userRideInfo.users[2].pickupLocation} at ${userRideInfo.users[2].pickupTime}`,
+        },
+        {
+          label: userRideInfo.users[3].name,
+          description: `from ${userRideInfo.users[3].pickupLocation} at ${userRideInfo.users[3].pickupTime}`,
+        },
+      ];
+      setSteps(temp);
+    }
+  },[userRideInfo]);
+  if(loading){
+    return (
+      <ReCard>
+        <CardHeader sx={{ textAlign: "left" }} title="Other Riders" />
+        <Divider variant="middle" />
+        <CardContent>
+          loading
+        </CardContent>
+      </ReCard>
+    )
+  }
+  if(userRideInfo === null){
+    return (
+      <ReCard>
+        <CardHeader sx={{ textAlign: "left" }} title="Other Riders" />
+        <Divider variant="middle" />
+        <CardContent>
+          No other riders
+        </CardContent>
+      </ReCard>
+    )
+  }
   return (
     <ReCard>
       <CardHeader

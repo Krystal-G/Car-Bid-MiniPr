@@ -31,14 +31,15 @@ exports.driverSignup = async (req, res) => {
 
   // Save the driver to the database
   try {
-    const savedDriver = await newDriver.save();
+    const user = await newDriver.save();
 
     // Create JWT token
-    const token = jwt.sign({ email: savedDriver.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
     // Send response with user info and token
     res.status(201).json({
-      savedDriver,
+      user,
+      role: 'driver',
       token
     });
   } catch (error) {
@@ -70,15 +71,16 @@ exports.passengerSignup = async (req, res) => {
 
   // Save the passenger to the database
   try {
-    const savedPassenger = await newPassenger.save();
+    const user = await newPassenger.save();
 
 
     // Create JWT token
-    const token = jwt.sign({ email: savedPassenger.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
     // Send response with user info and token
     res.status(201).json({
-      savedPassenger,
+      user,
+      role: 'passenger',
       token
     });
   } catch (error) {
@@ -118,9 +120,7 @@ exports.login = async (req, res) => {
     // Send response with user info and token
     res.status(200).json({
       message: 'Login successful',
-      userId: user._id,
-      name: user.name,
-      email: user.email,
+      user,
       role: driver ? 'driver' : 'passenger',
       token
     });

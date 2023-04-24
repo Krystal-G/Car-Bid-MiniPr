@@ -20,7 +20,7 @@ const onSubmitHandler = (e) =>
 {
     e.preventDefault();
     const CurrentUser = JSON.parse(localStorage.getItem("userInfo"));
-    const userId = CurrentUser.user.data.user._id;
+    const userId = CurrentUser.userInf.user._id;
     createOrg({
         userId:userId,
         organizationName:organizationName,

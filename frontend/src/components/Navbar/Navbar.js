@@ -82,10 +82,15 @@ const NavBar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            <Link href="/">
+            <img height={"70px"} src={require("../../pages/HomePage/logo.png")}/>
+            
+          </Link>
           </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box>
+            
+          </Box>
+          {/* <Box sx={{  display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -116,8 +121,8 @@ const NavBar = () => {
             >
               
             </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          </Box> */}
+
           <Typography
             variant="h5"
             noWrap
@@ -125,8 +130,8 @@ const NavBar = () => {
             href=""
             sx={{
               mr: 2,
+              flexGrow: 0,
               display: { xs: "flex", md: "none" },
-              flexGrow: 1,
               fontFamily: "inherit",
               fontWeight: 700,
               letterSpacing: ".3rem",
@@ -134,7 +139,9 @@ const NavBar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            <Link href="/">
+            <img height={"70px"} src={require("../../pages/HomePage/logo.png")}/>
+          </Link>
           </Typography>
           
            
@@ -176,7 +183,8 @@ const NavBar = () => {
               ))}
             </Menu>
           </Box>: 
-          <Box sx={{ flexGrow: 0, marginLeft: 'auto', alignItems:"flex-end" }}>
+          <Box sx={{ flexGrow: 0, marginLeft: 'auto', alignItems:"flex-end",
+          }}>
               <Link href="/login" sx={{textDecoration:'none'}}>
                 <Button
                   sx={{
@@ -193,6 +201,8 @@ const NavBar = () => {
                       border: 1,
                       borderColor: "#8330C2",
                     },
+                    width:{xs:"1px",sm:"40px",md:"100px"},
+                    fontSize:{xs:"10px",sm:"12px",md:"15px"}
                   }}
                 >
                   Login

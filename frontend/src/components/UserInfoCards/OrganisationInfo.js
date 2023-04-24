@@ -6,13 +6,10 @@ import Divider from "@mui/material/Divider";
 import { MainState } from "../../context/MainContext";
 import ReCard from './ReCard';
 import { useEffect } from "react";
+
 const OrganisationInfo = () => {
   const {getOrgById,orgDetails,loading} = MainState();
-  useEffect(() =>
-  {
-    getOrgById();
-  },[]);
-  
+  const CurrentUser = JSON.parse(localStorage.getItem("userInfo")).userInf;
   if (loading) {
     return (<ReCard>
     <CardHeader sx={{textAlign:'left'}} title="Organisation Info" />
@@ -23,21 +20,24 @@ const OrganisationInfo = () => {
   </ReCard>)
   }
   
-  const orgInfo = {
-    Name: orgDetails.name,
-    orgTime: orgDetails.orgTime
-  };
+  if(CurrentUser.role === "passenger"){
+    const orgInfo = {
+      Name: orgDetails.name,
+      organizationTime: orgDetails.orgTime
+    };
+    
+    return (
+      <ReCard>
+        <CardHeader sx={{textAlign:'left'}} title="Organisation Info" />
+        <Divider variant="middle" />
+        <CardContent>
+          <Text first="Name" second={orgInfo.Name} />
+          <Text first="Org Time" second={orgInfo.organizationTime} />
+        </CardContent>
+      </ReCard>
+    );
+  }
   
-  return (
-    <ReCard>
-      <CardHeader sx={{textAlign:'left'}} title="Organisation Info" />
-      <Divider variant="middle" />
-      <CardContent>
-        <Text first="Name" second={orgInfo.Name} />
-        <Text first="Org Time" second={orgInfo.orgTime} />
-      </CardContent>
-    </ReCard>
-  );
 };
 
 export default OrganisationInfo;

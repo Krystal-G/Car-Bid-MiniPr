@@ -5,8 +5,10 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { CurrentLoggedInUser } from "../../context/MainContext";
+import { MainState } from "../../context/MainContext";
 const Profile = () => {
+  const CurrentLoggedInUser = JSON.parse(localStorage.getItem("userInfo")).userInf;
+  
   return (
     <Container
       style={{
@@ -50,14 +52,14 @@ const Profile = () => {
             variant="h6"
             sx={{ display: "inline-block", marginLeft: "10px" }}
           >
-            {CurrentLoggedInUser?.name}
+            {CurrentLoggedInUser.user.name}
           </Typography>
 
           <Typography
             variant="body2"
             sx={{ display: "inline-block", marginLeft: "10px" }}
           >
-            Employee
+            {CurrentLoggedInUser.role === "driver" ? "Driver" : "Employee"}
           </Typography>
         </Box>
       </Container>

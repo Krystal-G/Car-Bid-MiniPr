@@ -9,14 +9,18 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import { CurrentLoggedInUser } from "../../context/MainContext";
+import { MainState } from "../../context/MainContext";
 
-const user = {
-  avatar: "/assets/avatars/avatar-anika-visser.png",
-  name: CurrentLoggedInUser?.name,
-  email: CurrentLoggedInUser?.email
-};
+
+
 const AccountProfile = () => {
+  const CurrentLoggedInUser = JSON.parse(localStorage.getItem("userInfo")).userInf.user;
+
+  const user = {
+    avatar: "/assets/avatars/avatar-anika-visser.png",
+    name: CurrentLoggedInUser.name,
+    email: CurrentLoggedInUser.email,
+  };
   return (
     <Card>
       <CardContent>

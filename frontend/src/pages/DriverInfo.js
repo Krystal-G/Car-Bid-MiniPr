@@ -1,16 +1,16 @@
 import React, {useEffect} from "react";
 import { Grid, Container } from "@mui/material";
-import OrganisationInfo from "../components/UserInfoCards/OrganisationInfo";
-import RideShareInfo from "../components/UserInfoCards/RideShareInfo";
+import OrganisationInfoListDriver from "../components/UserInfoCards/OrganisationInfoListDriver";
+import RideListDriver from "../components/UserInfoCards/RideListDriver";
 import RideInfo from "../components/UserInfoCards/RideInfo";
 import Profile from "../components/UserInfoCards/Profile";
 import { MainState } from "../context/MainContext";
-const UserInfo = () => {
-  const {getOrgById,getRideById} = MainState();
+const DriverInfo = () => {
+  const {getAllOrg,getRidesByDriverId} = MainState();
   useEffect(() =>
   {
-    getOrgById();
-    getRideById();
+    getAllOrg();
+    getRidesByDriverId();
   },[]);
   return (
     <Container maxWidth={false} sx={{backgroundColor:"backgroundInfo.main", height: "100vh"}}>
@@ -20,15 +20,12 @@ const UserInfo = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Container sx={{mt:4}}>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={6} md={4} lg={4}>
-                <OrganisationInfo />
+            <Grid container spacing={12} justifyContent="space-between" alignItems="center">
+              <Grid item xs={12} sm={6} md={6} lg={6}>
+                <OrganisationInfoListDriver />
               </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={4}>
-                <RideShareInfo />
-              </Grid>
-              <Grid item xs={12} sm={6} md={4} lg={4}>
-                <RideInfo />
+              <Grid item xs={12} sm={6} md={6} lg={6}>
+                <RideListDriver />
               </Grid>
             </Grid>
           </Container>
@@ -38,4 +35,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default DriverInfo;

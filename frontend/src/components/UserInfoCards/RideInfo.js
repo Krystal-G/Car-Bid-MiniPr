@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   CardHeader,
   CardContent,
@@ -11,27 +11,57 @@ import {
   Avatar,
 } from "@mui/material";
 import ReCard from "./ReCard";
-const steps = [
-  {
-    label: "Manas Agarwal",
-    description: "from Gomti Nagar at 10:00 AM",
-  },
-  {
-    label: "Rahul",
-    description: "from IIIT Lucknow at 11:00 AM",
-  },
-
-  {
-    label: "Jai",
-    description: "from pallasio at 11:15 AM",
-  },
-  {
-    label: "Rahul",
-    description: "from IIIT Lucknow at 11:30 AM",
-  },
-];
+import { MainState } from "../../context/MainContext";
 
 const RideInfo = () => {
+  const { userRideInfo, loading } = MainState();
+  const [steps, setSteps] = useState([]);
+  // const f= ()=>{
+  //   console.log(userRideInfo);
+  // }
+  // f();
+  const assignSteps = () => {
+    if (userRideInfo !== null) {
+      const tempArr = [];
+      for (let i = 0; i < userRideInfo.users.length; i++) {
+        const temp =
+        {
+          label: userRideInfo.users[i].name,
+          description: `from ${userRideInfo.users[i].pickupLocation} at ${userRideInfo.users[i].pickupTime}`,
+        }
+          ;
+        console.log(temp.labe);
+        console.log(temp.description);
+        tempArr.push(temp);
+      }
+      setSteps(tempArr);
+    }
+  }
+  useEffect(() => {
+    assignSteps();
+  }, [userRideInfo]);
+  if (loading) {
+    return (
+      <ReCard>
+        <CardHeader sx={{ textAlign: "left" }} title="Other Riders" />
+        <Divider variant="middle" />
+        <CardContent>
+          loading
+        </CardContent>
+      </ReCard>
+    )
+  }
+  if (steps.length === 0) {
+    return (
+      <ReCard>
+        <CardHeader sx={{ textAlign: "left" }} title="Other Riders" />
+        <Divider variant="middle" />
+        <CardContent>
+          No other riders
+        </CardContent>
+      </ReCard>
+    )
+  }
   return (
     <ReCard>
       <CardHeader

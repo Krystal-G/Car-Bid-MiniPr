@@ -12,17 +12,15 @@ import {
   Unstable_Grid2 as Grid,
   Link
 } from "@mui/material";
-import { CurrentLoggedInUser } from "../../context/MainContext";
+import { MainState } from "../../context/MainContext";
 
 
 const AccountProfileDetails = ({ isProfile, setIsProfile }) => {
+  const CurrentLoggedInUser = JSON.parse(localStorage.getItem("userInfo")).userInf.user;
   const [values, setValues] = useState({
-    firstName: CurrentLoggedInUser?.name,
-    lastName: "Visser",
+    name: CurrentLoggedInUser?.name,
     email: CurrentLoggedInUser?.email,
     phone: CurrentLoggedInUser?.phoneNo,
-    state: "Uttar Pradesh",
-    country: "India",
   });
 
   const handleChange = useCallback((event) => {
@@ -45,23 +43,12 @@ const AccountProfileDetails = ({ isProfile, setIsProfile }) => {
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  helperText="Please specify the first name"
-                  label="First name"
-                  name="firstName"
+                  helperText="Please specify your name"
+                  label="Name"
+                  name="name"
                   onChange={handleChange}
                   required
-                  value={values.firstName}
-                  variant="filled"
-                />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  label="Last name"
-                  name="lastName"
-                  onChange={handleChange}
-                  required
-                  value={values.lastName}
+                  value={values.name}
                   variant="filled"
                 />
               </Grid>
@@ -87,18 +74,6 @@ const AccountProfileDetails = ({ isProfile, setIsProfile }) => {
                   variant="filled"
                 />
               </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  label="Country"
-                  name="country"
-                  onChange={handleChange}
-                  required
-                  value={values.country}
-                  variant="filled"
-                />
-              </Grid>
-              
             </Grid>
           </Box>
         </CardContent>

@@ -17,8 +17,7 @@ const SocialMediaComponent = () => {
         flexWrap: "wrap",
         mt: "50px",
         "& svg": {
-          fontSize: { xs: "50px", sm: "70px", md: "100px" },
-          marginRight: "10px",
+          fontSize: { xs: "50px", md: "100px",sm:"100px" },
         },
       }}
     >

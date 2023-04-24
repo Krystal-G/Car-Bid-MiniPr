@@ -14,10 +14,11 @@ const Join = () => {
   const [orgId,setOrgId] = useState("");
   const [location,setLocation] = useState("");
   const {joinUserToOrg,joinDriverToOrg} = MainState();
+  const CurrentUser = JSON.parse(localStorage.getItem("userInfo"));
   const handleSubmitOfEmployee = (e) => {
     e.preventDefault();
-    const CurrentUser = JSON.parse(localStorage.getItem("userInfo"));
-    const userId = CurrentUser.user.data.savedPassenger._id;
+    // console.log(CurrentUser);
+    const userId = CurrentUser.userInf.user._id;
     joinUserToOrg({
       userId:userId,
       orgId:orgId,
@@ -53,14 +54,15 @@ const Join = () => {
             <Stack spacing={1} sx={{ mb: 3 }}>
               <Typography variant="h4">Corporate Accounts</Typography>
             </Stack>
-            <Tabs onChange={handleMethodChange} sx={{ mb: 3 }} value={method}>
+            {/* <Tabs onChange={handleMethodChange} sx={{ mb: 3 }} value={method}>
               <Tab label="driver" value="driver" />
               <Tab label="employee" value="employee" />
-            </Tabs>
-            {method === "driver" && (
+            </Tabs> */}
+            {CurrentUser.userInf.role === "driver" && (<ListOfOrgs/>)}
+            {/* {method === "driver" && (
               <ListOfOrgs/>
-            )}
-            {method === "employee" && (
+            )} */}
+            {CurrentUser.userInf.role === "passenger" && (
               <form noValidate onSubmit={handleSubmitOfEmployee}>
                 <Stack spacing={3}>
                   <TextField
