@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { Grid, Container } from "@mui/material";
+import { Grid, Container,Box } from "@mui/material";
 import OrganisationInfo from "../components/UserInfoCards/OrganisationInfo";
 import RideShareInfo from "../components/UserInfoCards/RideShareInfo";
 import RideInfo from "../components/UserInfoCards/RideInfo";
@@ -7,6 +7,7 @@ import Profile from "../components/UserInfoCards/Profile";
 import { MainState } from "../context/MainContext";
 import Loading from "../components/Loading";
 import Typography from "@mui/material/Typography"
+import NavBar from "../components/Navbar/Navbar";
 const UserInfo = () => {
   const {getOrgById,getRideById,loading} = MainState();
   const CurrentUser = JSON.parse(localStorage.getItem("userInfo")).userInf;
@@ -23,27 +24,40 @@ const UserInfo = () => {
   }
   if(!CurrentUser.user.organization){
     return (
-      <Container maxWidth={false} sx={{backgroundColor:"backgroundInfo.main", height: "100vh"}}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Profile />
+      <>
+        <NavBar/>
+        <Container maxWidth={false} sx={{backgroundColor:"backgroundInfo.main", height: "100vh"}}>
+          <Box sx={{display:"flex", flexDirection:"column"}}>
+            <Box sx={{marginTop: "70px"}}>
+              <Profile />
+            </Box>
+          </Box>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <Container sx={{mt:4}}>
+                <Typography variant="h4" sx={{color:"text.primary", fontWeight:"bold", textAlign:"center"}}>
+                  You are not a member of any organization
+                </Typography>
+              </Container>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Container sx={{mt:4}}>
-              <Typography variant="h4" sx={{color:"text.primary", fontWeight:"bold", textAlign:"center"}}>
-                You are not a member of any organization
-              </Typography>
-            </Container>
-          </Grid>
-        </Grid>
-      </Container>
-    )
+        </Container>
+      </>
+    );
+    
+    
   }
   return (
+    <>
+    <NavBar/>
     <Container maxWidth={false} sx={{backgroundColor:"backgroundInfo.main", height: "100vh"}}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <Profile />
+        <Box sx={{display:"flex", flexDirection:"column"}}>
+            <Box sx={{marginTop: "70px"}}>
+              <Profile />
+            </Box>
+          </Box>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12}>
           <Container sx={{mt:4}}>
@@ -62,6 +76,7 @@ const UserInfo = () => {
         </Grid>
       </Grid>
     </Container>
+    </>
   );
 };
 

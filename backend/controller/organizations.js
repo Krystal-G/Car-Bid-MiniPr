@@ -4,10 +4,7 @@ const Organization = require('../modal/organization');
 const Driver = require('../modal/driver');
 const User = require('../modal/user');
 const Ride = require('../modal/ride');
-const SibApiV3Sdk = require('sib-api-v3-sdk');
-const defaultClient = SibApiV3Sdk.ApiClient.instance;
-const apiKey = defaultClient.authentications['api-key'];
-apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
+const nodemailer = require('nodemailer');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -208,7 +205,7 @@ exports.getRides = async (req, res, next) => {
     //iterate through rides array and find the ride details
     for (let i = 0; i < rides.length; i++) {
       const rideX = await Ride.findById(rides[i]);
-      console.log(rideX);
+      // console.log(rideX);
       const driver = await Driver.findById(rideX.driver);
       let name = "";
       let licensePlate = "";
@@ -237,7 +234,21 @@ exports.getRides = async (req, res, next) => {
     next(error);
   }
 };
-
+async function deleteRides(organization){
+  //delete all rides in current organization ride array
+  await Ride.deleteMany({ organization: organization._id });
+  await Organization.updateOne({ _id: organization._id }, { $unset: { rides: '' } });
+  for (let i = 0; i < organization.employees.length; i++) {
+    await User.updateOne({ _id: organization.employees[i] }, { $unset: { rideAssigned: '' } });
+    await User.updateOne({ _id: organization.employees[i] }, { $unset: { pickupTime: '' } });
+  }
+  for (let i = 0; i < organization.drivers.length; i++) {
+    // const driver = await Driver.findById(organization.drivers[i]);
+    // driver.ridesAssigned = [];
+    // await driver.save();
+    await Driver.updateOne({ _id: organization.drivers[i] }, { $unset: { ridesAssigned: '' } });
+  }
+}
 exports.assignRides = async (req, res, next) => {
   try {
     const { adminId } = req.body;
@@ -250,109 +261,106 @@ exports.assignRides = async (req, res, next) => {
     if (!organization) {
       return res.status(400).json({ message: 'No organization found for the given admin ID' });
     }
-    //delete all rides in current organization ride array
-    await Ride.deleteMany({ organization: organization._id });
-    await Organization.updateOne({ _id: organization._id }, { $unset: { rides: '' } });
-    for (let i = 0; i < organization.employees.length; i++) {
-      await User.updateOne({ _id: organization.employees[i] }, { $unset: { rideAssigned: '' } });
-      await User.updateOne({ _id: organization.employees[i] }, { $unset: { pickupTime: '' } });
-    }
-    for (let i = 0; i < organization.drivers.length; i++) {
-      // const driver = await Driver.findById(organization.drivers[i]);
-      // driver.ridesAssigned = [];
-      // await driver.save();
-      await Driver.updateOne({ _id: organization.drivers[i] }, { $unset: { ridesAssigned: '' } });
-    }
-    return res.status(200).json({ message: 'Rides assigned successfully' });
-    // const tempEmployees = await Promise.all(organization.employees.map(async (employeeId) => {
-    //   const employee = await User.findById(employeeId);
-    //   return {
-    //     id: employeeId,
-    //     isAdmin: employee.isAdmin,
-    //     location: employee.pickupLocation,
-    //   };
-    // }));
-    // const employees = tempEmployees.filter((employee) => !employee.isAdmin);
-    // const drivers = await Promise.all(organization.drivers.map(async (driverId) => {
-    //   const driver = await Driver.findById(driverId);
-    //   return {
-    //     id: driverId,
-    //   };
-    // }));
-    // // console.log(employees);
-    // const result = main(employees, drivers, organization.orgTime);
-    // let minTime = parseInt(organization.orgTime.split(':')[0]) * 60 + parseInt(organization.orgTime.split(':')[1]);
-    // for (let i = 0; i < result.length; i++) {
-    //   //find passenger by id and change pickup time
-    //   for (let j = 0; j < result[i].passengers.length; j++) {
-    //     // console.log(result[i].passengers[j].id);
-    //     const passenger = await User.findById(result[i].passengers[j].id);
-    //     passenger.pickupTime = result[i].passengers[j].time;
-    //     await passenger.save();
-    //   }
-    //   // console.log(result[i].driver);
-    //   // const driver = await Driver.findById(result[i].driver);
-    //   // console.log(driver);
-    //   const ride = new Ride({
-    //     driver: result[i].driver,
-    //     passengers: result[i].passengers.map((passenger) => passenger.id),
-    //     organization: organization._id,
-    //   });
-    //   if (ride.driver === null) {
-    //     console.log(result[i].passengers[0].time);
-    //     const curTime = parseInt(result[i].passengers[0].time.split(':')[0]) * 60 + parseInt(result[i].passengers[0].time.split(':')[1]);
-    //     minTime = Math.min(minTime, curTime);
-    //   }
-    //   // console.log(ride);
-    //   await ride.save();
-    //   organization.rides.push(ride._id);
-    //   await organization.save();
-    //   if (result[i].driver !== null) {
-    //     const driver = await Driver.findById(result[i].driver);
-    //     driver.ridesAssigned.push(ride._id);
-    //     await driver.save();
+    await deleteRides(organization);
+    const tempEmployees = await Promise.all(organization.employees.map(async (employeeId) => {
+      const employee = await User.findById(employeeId);
+      return {
+        id: employeeId,
+        isAdmin: employee.isAdmin,
+        location: employee.pickupLocation,
+      };
+    }));
+    const employees = tempEmployees.filter((employee) => !employee.isAdmin);
+    const drivers = await Promise.all(organization.drivers.map(async (driverId) => {
+      const driver = await Driver.findById(driverId);
+      return {
+        id: driverId,
+      };
+    }));
+    // console.log(employees);
+    const resp = main(employees, drivers, organization.orgTime);
+    const result = resp.filter((v, i, a) => a.findIndex(t => (t.driver === v.driver)) === i);
+    // console.log(result);
+    let minTime = parseInt(organization.orgTime.split(':')[0]) * 60 + parseInt(organization.orgTime.split(':')[1]);
+    for (let i = 0; i < result.length; i++) {
+      //find passenger by id and change pickup time
+      for (let j = 0; j < result[i].passengers.length; j++) {
+        // console.log(result[i].passengers[j].id);
+        const passenger = await User.findById(result[i].passengers[j].id);
+        passenger.pickupTime = result[i].passengers[j].time;
+        await passenger.save();
+      }
+      // console.log(result[i].driver);
+      // const driver = await Driver.findById(result[i].driver);
+      // console.log(driver);
+      const ride = new Ride({
+        driver: result[i].driver,
+        passengers: result[i].passengers.map((passenger) => passenger.id),
+        organization: organization._id,
+      });
+      if (ride.driver === null) {
+        // console.log(result[i].passengers[0].time);
+        const curTime = parseInt(result[i].passengers[0].time.split(':')[0]) * 60 + parseInt(result[i].passengers[0].time.split(':')[1]);
+        minTime = Math.min(minTime, curTime);
+      }
+      // console.log(ride);
+      await ride.save();
+      organization.rides.push(ride._id);
+      await organization.save();
+      if (result[i].driver !== null) {
+        const driver = await Driver.findById(result[i].driver);
+        driver.ridesAssigned.push(ride._id);
+        await driver.save();
 
-    //   }
-    //   for (let j = 0; j < result[i].passengers.length; j++) {
-    //     // console.log(result[i].passengers[j].id);
-    //     const passenger = await User.findById(result[i].passengers[j].id);
-    //     passenger.rideAssigned = ride._id;
-    //     await passenger.save();
-    //     // if (result[i].driver !== null) {
-    //     //   const driver = await Driver.findById(result[i].driver);
-    //     //   // console.log(passenger.email);
-    //     //   const msg = {
-    //     //     to: [{ email: passenger.email, name: passenger.name }],
-    //     //     subject: 'Ride Assignment',
-    //     //     htmlContent: `<p>Hi ${passenger.name},</p>
-    //     //     <p>Your ride has been assigned. Please be at the pickup location at <b>${passenger.pickupLocation}</b> at <b>${passenger.pickupTime}.</b></p>
-    //     //     <p>Ride Details:</p>
-    //     //     <p>Driver Name: ${driver.name}</p>
-    //     //     <p>Driver Phone: ${driver.phoneNo}</p>
-    //     //     <p>Driver Vehicle: ${driver.licensePlate}</p>
-    //     //     <p>Pickup Location: ${passenger.pickupLocation}</p>
-    //     //     <p>Pickup Time: ${passenger.pickupTime}</p>
-    //     //     <p>These will be your ride details till further notice.</p>
-    //     //     <p>Regards,</p>
-    //     //     <p>Team CarBidding</p>`,
-    //     //     sender: { email: admin.email, name: admin.name },
-    //     //   };
-    //     //   const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-    //     //   apiInstance.sendTransacEmail(msg).then(function (data) {
-    //     //     console.log('API called successfully. Returned data: ' + data);
-    //     //   }, function (error) {
-    //     //     console.error("Unable to send email", error);
-    //     //   });
-    //     // }
-    //   }
-    // }
-    // //convert minTime to string HH:MM format
-    // let timeString = (Math.floor(minTime / 60)).toString().padStart(2, '0') + ":" + (minTime % 60).toString().padStart(2, '0');
-    // organization.minStartTime = timeString;
-    // await organization.save();
-    // return res.status(200).json({ message: 'Rides assigned successfully', rides: organization.rides });
+      }
+      for (let j = 0; j < result[i].passengers.length; j++) {
+        // console.log(result[i].passengers[j].id);
+        const passenger = await User.findById(result[i].passengers[j].id);
+        passenger.rideAssigned = ride._id;
+        await passenger.save();
+        if(result[i].driver !== null){
+          const driver = await Driver.findById(result[i].driver);
+          const transporter = nodemailer.createTransport({
+            host: 'smtp.elasticemail.com',
+            port: 2525,
+            auth: {
+              user: 'jaimehta0724@gmail.com',
+              pass: process.env.NODEMAILER_PASS
+            }
+          });
+
+          const mailOptions = {
+            from: 'jaimehta0724@gmail.com',
+            to: passenger.email,
+            subject: 'Ride Details',
+            html: `<p>Hi ${passenger.name}</p>
+            <p>Your ride has been assigned. Please be at the pickup location at ${passenger.pickupLocation} at ${passenger.pickupTime}</p>
+            <p>Ride Details:</p>
+            <p>Driver Name: ${driver.name}</p>
+            <p>Driver Phone No: ${driver.phoneNo}</p>
+            <p>License Plate: ${driver.licensePlate}</p>
+            <p>These will be your ride details till further notice.</p>
+            <p>Regards </p>
+            <p>Team CarBidding</p>`
+          };
+
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
+        }
+      }
+    }
+    //convert minTime to string HH:MM format
+    let timeString = (Math.floor(minTime / 60)).toString().padStart(2, '0') + ":" + (minTime % 60).toString().padStart(2, '0');
+    organization.minStartTime = timeString;
+    const updatedOrg = await organization.save();
+    return res.status(200).json({ message: 'Rides assigned successfully', rides: updatedOrg.rides });
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 }

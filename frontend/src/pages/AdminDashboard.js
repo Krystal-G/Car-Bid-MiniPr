@@ -9,6 +9,7 @@ import { RidersChart } from '../sections/overview/riderschart'
 import Loading  from '../components/Loading';
 // import { fromUnixTime } from 'date-fns';
 import { MainState } from '../context/MainContext';
+import NavBar from '../components/Navbar/Navbar';
 
 const now = new Date();
 
@@ -45,7 +46,7 @@ const AdminDashboard = () => {
         Overview | Devias Kit
       </title>
     </Head> */}
-
+    <NavBar/>
       <Box
         component="main"
         sx={{

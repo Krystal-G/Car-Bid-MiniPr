@@ -29,6 +29,7 @@ function main(employees, drivers,orgTime) {
         const distanceB = distances[keys.indexOf(source)][keys.indexOf(locationB)];
         return distanceA - distanceB;
     });
+    // console.log(employees);
     let i =0;
     
     let t = 0;
@@ -85,11 +86,14 @@ function main(employees, drivers,orgTime) {
         result.push(curResult);
         i++;
     }
-    // console.log(result); 
+
+    // console.log(result);
+    const unique = result.filter((v, i, a) => a.findIndex(t => (t.driver === v.driver)) === i);
     // for(let i=0;i<result.length;i++){
     //     console.log(result[i]);
     // }   
-    return result;
+    // console.log(unique);
+    return unique;
 }
 
 module.exports = {main};

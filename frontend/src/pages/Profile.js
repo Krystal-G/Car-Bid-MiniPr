@@ -9,6 +9,7 @@ import {
 import AccountProfile from "../components/Profile/AccountProfile";
 import AccountProfileDetails from "../components/Profile/AccountProfileDetails";
 import ChangePassword from "../components/Profile/ChangePassword";
+import NavBar from "../components/Navbar/Navbar";
 const Profile = () => {
   const [isProfile, setIsProfile] = React.useState(true);
   return (

@@ -18,6 +18,7 @@ import {
   TableRow,
   Grid,
   Typography,
+  Link
 } from '@mui/material';
 // import { Scrollbar } from '../../components/scrollbar';
 // import { SeverityPill } from '../../components/severity-pill';
@@ -120,6 +121,9 @@ const DriverList = () => {
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+          <Link href="/admindashboard" sx={{textDecoration:"none"}}>
+          Back
+        </Link>
         </CardActions>
       </Card>
     </>

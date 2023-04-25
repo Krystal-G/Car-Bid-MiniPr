@@ -15,13 +15,80 @@ const [organizationName,setOrgName] = useState("");
 const [organizationDescription,setOrgDesc] = useState("");
 const [organizationAddress,setOrgAdd] = useState("");
 const [orgTime,setOrgTime] = useState("");
+
+const [organizationNameError,setOrgNameError] = useState("");
+const [organizationDescriptionError,setOrgDescError] = useState("");
+const [organizationAddressError,setOrgAddError] = useState("");
+const [orgTimeError,setOrgTimeError] = useState("");
+
+
+const handleOrganizationNameChange = (e) =>
+{
+  setOrgName(e.target.value);
+  if(organizationName)
+  {
+    setOrgNameError("");
+  }
+};
+
+const handleOrganizationDescChange = (e) =>
+{
+  setOrgDesc(e.target.value);
+  if(organizationDescription)
+  {
+    setOrgDescError("");
+  }
+};
+
+const handleOrganizationAddressChange = (e) =>
+{
+  setOrgAdd(e.target.value);
+  if(organizationAddress)
+  {
+    setOrgAddError("");
+  }
+};
+
+const handleOrganizationTimeChange = (e) =>
+{
+  setOrgTime(e.target.value);
+  if(organizationAddress)
+  {
+    setOrgTimeError("");
+  }
+};
+
 const {createOrg} = MainState();
 const onSubmitHandler = (e) =>
 {
     e.preventDefault();
     const CurrentUser = JSON.parse(localStorage.getItem("userInfo"));
     const userId = CurrentUser.userInf.user._id;
-    createOrg({
+    
+    let isValid = false;
+    if(!organizationName)
+    {
+      setOrgNameError("Organization Name is required");
+      isValid = true;
+    }
+    if(!organizationDescription)
+    {
+      setOrgDescError("Description is required");
+      isValid = true;
+    }
+    if(!organizationAddress)
+    {
+      setOrgAddError("Address is required");
+      isValid = true;
+    }
+    if(!orgTime)
+    {
+      setOrgTimeError("Organization Time is required");
+      isValid = true;
+    }
+    if(!isValid)
+    {
+      createOrg({
         userId:userId,
         organizationName:organizationName,
         organizationDescription:organizationAddress,
@@ -33,6 +100,8 @@ const onSubmitHandler = (e) =>
     setOrgDesc("");
     setOrgAdd("");
     setOrgTime("");
+    }
+    
 }
   return (
     <>
@@ -68,7 +137,9 @@ const onSubmitHandler = (e) =>
                     name="orgName"
                     type="string"
                     value={organizationName}
-                    onChange={(e) => setOrgName(e.target.value)}
+                    onChange={(e) => handleOrganizationNameChange(e)}
+                    error={!!organizationNameError}
+                    helperText={organizationNameError}
                   />
                   <TextField
                     fullWidth
@@ -77,7 +148,9 @@ const onSubmitHandler = (e) =>
                     name="orgDesc"
                     type="string"
                     value={organizationDescription}
-                    onChange={(e) => setOrgDesc(e.target.value)}
+                    onChange={(e) => handleOrganizationDescChange(e)}
+                    error={!!organizationDescriptionError}
+                    helperText={organizationDescriptionError}
                   />
                   <TextField
                     fullWidth
@@ -86,7 +159,9 @@ const onSubmitHandler = (e) =>
                     name="orgAdd"
                     type="string"
                     value={organizationAddress}
-                    onChange={(e) => setOrgAdd(e.target.value)}
+                    onChange={(e) => handleOrganizationAddressChange(e)}
+                    error={!!organizationAddressError}
+                    helperText={organizationAddressError}
                   />
                   <TextField
                     fullWidth
@@ -96,7 +171,9 @@ const onSubmitHandler = (e) =>
                     type="time"
                     htmlFor="time-input"
                     value={orgTime}
-                    onChange={(e) => setOrgTime(e.target.value)}
+                    onChange={(e) => handleOrganizationTimeChange(e)}
+                    error={!!orgTimeError}
+                    helperText={orgTimeError}
                   />
                 </Stack>
                 <Button

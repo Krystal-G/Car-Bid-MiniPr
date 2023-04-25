@@ -19,6 +19,7 @@ import {
   TableRow,
   Grid,
   Chip,
+  Link
 } from '@mui/material';
 // import { Scrollbar } from '../../components/scrollbar';
 // import { SeverityPill } from '../../components/severity-pill';
@@ -56,8 +57,10 @@ const EmployeeList = () => {
       <NavBar />
       <Card sx={{ height: "100%", m: 10  }}>
         <CardHeader title="Organization Employees" />
+        
         {/* <Scrollbar sx={{ flexGrow: 1 }}> */}
         <Grid item xs={12} sm={12} md={12} lg={12} sx={{ "overflow-x": "auto" }}>
+        
           <Table>
             <TableHead>
               <TableRow>
@@ -119,8 +122,13 @@ const EmployeeList = () => {
             rowsPerPage={rowsPerPage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
+          <Link href="/admindashboard" sx={{textDecoration:"none"}}>
+          Back
+        </Link>
         </CardActions>
+        
       </Card>
+      
     </>
 
   );

@@ -72,7 +72,7 @@ const NavBar = () => {
     <AppBar
       position="fixed"
       sx={{
-        backgroundColor: "#fffcf2",
+        backgroundColor: "white",
         boxShadow: "none",
         display:'flex',
         justifyContent:'space-between'
