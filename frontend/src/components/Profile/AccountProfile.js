@@ -52,9 +52,9 @@ const AccountProfile = () => {
       </CardContent>
       <Divider />
       <CardActions>
-        <Button fullWidth variant="text">
+        {/* <Button fullWidth variant="text">
           Upload picture
-        </Button>
+        </Button> */}
       </CardActions>
     </Card>
   );

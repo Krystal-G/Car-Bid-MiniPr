@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MainState } from '../../context/MainContext';
 import { Button } from '@mui/material';
-
+import Loading from '../Loading';
 const ListOfOrgs = () => {
 const {getAllOrg,allOrgDetails,loading,joinDriverToOrg} = MainState();
 const CurrentUser = JSON.parse(localStorage.getItem("userInfo"));
@@ -27,7 +27,7 @@ const onClickJoin = (e) =>
     },[])
     // console.log(allOrgDetails)
     if (loading) {
-      return <div>loading</div>;
+      return <Loading />;
     }
     
     if (!allOrgDetails.length) {
@@ -37,7 +37,7 @@ const onClickJoin = (e) =>
     return (
       <div>
         {allOrgDetails.map((org) => (
-          <Accordion key={org._id} disabled={org.orgTime === org.minStartTime || CurrentUser.userInf.user.organizations.find((organization) => organization._id === org._id) !== null}>
+          <Accordion key={org._id} disabled={Math.ceil(org.employees.length/4) <= org.drivers.length || CurrentUser.userInf.user.organizations.find((organization) => organization._id === org._id)}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"

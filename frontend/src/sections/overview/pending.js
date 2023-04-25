@@ -22,7 +22,7 @@ export const Pending = (props) => {
               color="text.secondary"
               variant="overline"
             >
-             Pending Requests
+             Assigned Rides
             </Typography>
             <Typography variant="h4">
               {value}

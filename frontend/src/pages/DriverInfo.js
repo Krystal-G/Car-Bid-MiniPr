@@ -5,13 +5,17 @@ import RideListDriver from "../components/UserInfoCards/RideListDriver";
 import RideInfo from "../components/UserInfoCards/RideInfo";
 import Profile from "../components/UserInfoCards/Profile";
 import { MainState } from "../context/MainContext";
+import Loading from "../components/Loading";
 const DriverInfo = () => {
-  const {getAllOrg,getRidesByDriverId} = MainState();
+  const {getAllOrg,getRidesByDriverId,loading} = MainState();
   useEffect(() =>
   {
     getAllOrg();
     getRidesByDriverId();
   },[]);
+  if(loading){
+    return <Loading />
+  }
   return (
     <Container maxWidth={false} sx={{backgroundColor:"backgroundInfo.main", height: "100vh"}}>
       <Grid container spacing={2}>

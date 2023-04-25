@@ -18,7 +18,7 @@ export default function OrganizationInfoListDriver() {
     const [driverOrgs, setDriverOrgs] = React.useState([]);
     const CurrentUser = JSON.parse(localStorage.getItem("userInfo")).userInf;
     const filterOrgs = () => {
-        console.log(allOrgDetails)
+        // console.log(allOrgDetails)
         const temp = [];
         allOrgDetails.forEach((org) => {
             if (org.drivers.find((driver) => driver === CurrentUser.user._id)) {
@@ -31,15 +31,7 @@ export default function OrganizationInfoListDriver() {
     useEffect(() => {
         filterOrgs();
     }, [allOrgDetails])
-    if(loading){
-        return (<ReCard>
-            <CardHeader sx={{ textAlign: 'left' }} title="Organisation Info" />
-            <Divider variant="middle" />
-            <CardContent>
-                loading
-            </CardContent>
-        </ReCard>)
-    }
+    
     if(driverOrgs.length === 0){
         return (<ReCard>
             <CardHeader sx={{ textAlign: 'left' }} title="Organisation Info" />

@@ -8,45 +8,66 @@ import AddRoadOutlinedIcon from "@mui/icons-material/AddRoadOutlined";
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
 import Avatar from "@mui/material/Avatar";
 import { Link } from "@mui/material";
-const features = [
-  {
-    componenet: (
-      <CorporateFareOutlinedIcon
-        sx={{
-          fontSize: { xs: "20px", sm: "40px", md: "50px" },
-          mr: "1rem",
-        }}
-      />
-    ),
-    link: "/corpac",
-    name: "Corporate Accounts",
-  },
-  {
-    componenet: (
-      <AddRoadOutlinedIcon
-        sx={{
-          fontSize: { xs: "20px", sm: "40px", md: "50px" },
-          mr: "1rem",
-        }}
-      />
-    ),
-    link: "/",
-    name: "Road Side Assistance",
-  },
-  {
-    componenet: (
-      <Groups2OutlinedIcon
-        sx={{
-          fontSize: { xs: "20px", sm: "40px", md: "50px" },
-          mr: "1rem",
-        }}
-      />
-    ),
-    link: "/",
-    name: "Group Rides",
-  },
-];
+
 const HomePage = () => {
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+  let link;
+
+  if (user?.userInf?.role === 'passenger') {
+    if (user?.userInf?.user?.isAdmin) {
+      link = '/admindashboard'
+    }
+    else if (!user?.userInf?.user?.organization) {
+      link = '/corpac'
+    }
+    else {
+      link = '/userinfo'
+    }
+  }
+
+  else {
+
+    link = '/corpac'
+  }
+
+  const features = [
+    {
+      componenet: (
+        <CorporateFareOutlinedIcon
+          sx={{
+            fontSize: { xs: "20px", sm: "40px", md: "50px" },
+            mr: "1rem",
+          }}
+        />
+      ),
+      link: link,
+      name: "Corporate Accounts",
+    },
+    {
+      componenet: (
+        <AddRoadOutlinedIcon
+          sx={{
+            fontSize: { xs: "20px", sm: "40px", md: "50px" },
+            mr: "1rem",
+          }}
+        />
+      ),
+      link: "/",
+      name: "Road Side Assistance",
+    },
+    {
+      componenet: (
+        <Groups2OutlinedIcon
+          sx={{
+            fontSize: { xs: "20px", sm: "40px", md: "50px" },
+            mr: "1rem",
+          }}
+        />
+      ),
+      link: "/",
+      name: "Group Rides",
+    },
+  ];
   return (
     <Box sx={{ height: "100vh" }}>
       <Box>
@@ -120,7 +141,7 @@ const HomePage = () => {
             mx: "auto",
             borderRadius: { xs: "30px", md: "70px" },
             display: "flex",
-            height: {xs:"70vh", md:"50vh"},
+            height: { xs: "70vh", md: "50vh" },
             backgroundColor: "#F1F6F9",
             fontSize: { xs: "30px", sm: "50px", md: "70px" },
             width: { xs: "100%", md: "100%", sm: "100%" }, // Set width to 100% on small screens and 50% on medium screens
@@ -202,10 +223,10 @@ const HomePage = () => {
           </Typography>
         </Box>
         <Box sx={{
-          display:"flex",
-          alignItems:"center",
-          justifyContent:"center",
-          flexDirection:"column"
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column"
         }}>
           <Box
             sx={{
@@ -238,11 +259,11 @@ const HomePage = () => {
                 fontFamily: "inherit",
                 fontWeight: "400",
                 fontSize: { xs: "20px", md: "30px" },
-                color:"#8330C2"
+                color: "#8330C2"
               }}>
                 Supervisor
               </Typography>
-              
+
             </Typography>
           </Box>
         </Box>
@@ -297,14 +318,14 @@ const HomePage = () => {
                 >
                   Ayushman Bajpayee
                   <Typography sx={{
-                fontFamily: "inherit",
-                fontWeight: "400",
-                fontSize: { xs: "20px", md: "30px" },
-                color:"#8330C2",
-                mb:{xs:"50px"},
-              }}>
-                Team Member
-              </Typography>
+                    fontFamily: "inherit",
+                    fontWeight: "400",
+                    fontSize: { xs: "20px", md: "30px" },
+                    color: "#8330C2",
+                    mb: { xs: "50px" },
+                  }}>
+                    Team Member
+                  </Typography>
                 </Typography>
               </Box>
             </Box>
@@ -337,14 +358,14 @@ const HomePage = () => {
                 >
                   Gyanendra Gupta
                   <Typography sx={{
-                fontFamily: "inherit",
-                fontWeight: "400",
-                fontSize: { xs: "20px", md: "30px" },
-                color:"#8330C2",
-                mb:{xs:"50px"},
-              }}>
-                Team Member
-              </Typography>
+                    fontFamily: "inherit",
+                    fontWeight: "400",
+                    fontSize: { xs: "20px", md: "30px" },
+                    color: "#8330C2",
+                    mb: { xs: "50px" },
+                  }}>
+                    Team Member
+                  </Typography>
                 </Typography>
               </Box>
             </Box>
@@ -377,14 +398,14 @@ const HomePage = () => {
                 >
                   Jai Mehta
                   <Typography sx={{
-                fontFamily: "inherit",
-                fontWeight: "400",
-                fontSize: { xs: "20px", md: "30px" },
-                color:"#8330C2",
-                mb:{xs:"50px"},
-              }}>
-                Team Member
-              </Typography>
+                    fontFamily: "inherit",
+                    fontWeight: "400",
+                    fontSize: { xs: "20px", md: "30px" },
+                    color: "#8330C2",
+                    mb: { xs: "50px" },
+                  }}>
+                    Team Member
+                  </Typography>
                 </Typography>
               </Box>
             </Box>
@@ -417,14 +438,14 @@ const HomePage = () => {
                 >
                   Manas Agarwal
                   <Typography sx={{
-                fontFamily: "inherit",
-                fontWeight: "400",
-                fontSize: { xs: "20px", md: "30px" },
-                color:"#8330C2",
-                mb:{xs:"50px"},
-              }}>
-                Team Member
-              </Typography>
+                    fontFamily: "inherit",
+                    fontWeight: "400",
+                    fontSize: { xs: "20px", md: "30px" },
+                    color: "#8330C2",
+                    mb: { xs: "50px" },
+                  }}>
+                    Team Member
+                  </Typography>
                 </Typography>
               </Box>
             </Box>

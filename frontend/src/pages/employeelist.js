@@ -18,12 +18,13 @@ import {
   TableHead,
   TableRow,
   Grid,
+  Chip,
 } from '@mui/material';
 // import { Scrollbar } from '../../components/scrollbar';
 // import { SeverityPill } from '../../components/severity-pill';
 import { MainState } from "../context/MainContext"
 import RidersChartItem from "../sections/overview/riderschartItem"
-
+import Loading from '../components/Loading';
 const EmployeeList = () => {
   const { getAllEmployees, employeeList, loading } = MainState();
   const [page, setPage] = React.useState(0);
@@ -45,7 +46,7 @@ const EmployeeList = () => {
     setPage(0);
   };
   if (loading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
   if (employeeList.length === 0) {
     return <div>No Rides</div>
@@ -72,6 +73,9 @@ const EmployeeList = () => {
                 <TableCell>
                   Phone No
                 </TableCell>
+                <TableCell>
+                  Ride Status
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -94,6 +98,9 @@ const EmployeeList = () => {
                     </TableCell>
                     <TableCell>
                       {order.phoneNo}
+                    </TableCell>
+                    <TableCell>
+                    <Chip label={order.rideAssigned || order.isAdmin? "Assigned" : "Pending"} color={order.rideAssigned || order.isAdmin? "success" : "warning"} />
                     </TableCell>
                   </TableRow>
                 );

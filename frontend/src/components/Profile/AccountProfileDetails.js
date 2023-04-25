@@ -83,13 +83,13 @@ const AccountProfileDetails = ({ isProfile, setIsProfile }) => {
           <Button sx={{
             textDecoration:"none",
             marginRight:"7px"
-          }} variant="contained">Home Page</Button>
+          }} variant="contained">Go to Home</Button>
           </Link>
           
-          <Button variant="contained">Save</Button>
+          {/* <Button variant="contained">Save</Button>
           <Button onClick={() => setIsProfile(false)} variant="contained">
             {isProfile ? "change password" : "Back"}
-          </Button>
+          </Button> */}
         </CardActions>
       </Card>
     </form>

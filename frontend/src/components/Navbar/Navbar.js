@@ -18,14 +18,28 @@ import AdbIcon from "@mui/icons-material/Adb";
 
 
 const NavBar = () => {
-  const user = JSON.parse(localStorage.getItem("userInfo")).userInf;
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+  let link;
+
+  if (user?.userInf?.role === 'passenger') {
+    if (user?.userInf?.user?.isAdmin) {
+      link = '/admindashboard'
+    }
+    else {
+      link = '/userinfo'
+    }
+  }
+  else {
+
+    link = '/driverinfo'
+  }
   const settings = [
     {
       link: "/profile",
       name: "Profile",
     },
     {
-      link: user.role==="driver" ? "/driverinfo" : "/userinfo",
+      link: link,
       name: "Dashboard",
     },
     {
@@ -149,7 +163,7 @@ const NavBar = () => {
           {user? <Box sx={{ flexGrow: 0, marginLeft: 'auto', alignItems:"flex-end" }}>
             <Tooltip title="Open settings">
               <IconButton  onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar  alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <Avatar>{user?.userInf?.user?.name.substring(0,1).toUpperCase()}</Avatar>
               </IconButton>
             </Tooltip>
             <Menu

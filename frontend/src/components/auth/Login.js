@@ -5,15 +5,50 @@ import { MainState } from "../../context/MainContext";
 const Login = ({ setIsLogin }) => {
   const [email,setEmail] =  useState("");
   const [password,setPassword] =  useState("");
+
+  const [emailError,setEmailError] = useState("");
+  const [passwordError,setPasswordError] = useState("");
+
   const {userLogin}  = MainState();
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    if (email) {
+      setEmailError("");
+    }
+  };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    if (password) {
+      setPasswordError("");
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    userLogin({
-      email:email,
-      password:password
-    })
-    setEmail("");
-    setPassword("");
+    setEmailError("");
+    setPasswordError("");
+    let isValid = true;
+    if(!email)
+    {
+      setEmailError("Email is required");
+      isValid = false;
+    }
+    if(!password)
+    {
+      setPasswordError("Password is required");
+      isValid = false;
+    }
+    if(isValid)
+    {
+      userLogin({
+        email:email,
+        password:password
+      })
+      setEmail("");
+      setPassword("");
+    }
+    
   };
   return (
     <>
@@ -23,6 +58,7 @@ const Login = ({ setIsLogin }) => {
           alignItems: "center",
           display: "flex",
           justifyContent: "center",
+          height:{xs:"100vh",md:"100vh"},
         }}
       >
         <Box
@@ -56,7 +92,9 @@ const Login = ({ setIsLogin }) => {
                   type="email"
                   variant="filled"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => handleEmailChange(e)}
+                  error={!!emailError}
+                  helperText={emailError}
                 />
                 <TextField
                   fullWidth
@@ -65,7 +103,9 @@ const Login = ({ setIsLogin }) => {
                   type="password"
                   variant="filled"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => handlePasswordChange(e)}
+                  error={!!passwordError}
+                  helperText={passwordError}
                 />
               </Stack>
               <Button

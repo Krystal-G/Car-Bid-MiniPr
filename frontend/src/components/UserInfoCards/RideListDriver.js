@@ -13,6 +13,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import RideListDriverItem from "./RideListDriverItem";
 import { MainState } from "../../context/MainContext";
+import Typography from "@mui/material/Typography";
 
 export default function OrganizationInfoListDriver() {
     const {driverRideInfo} = MainState();
@@ -20,7 +21,7 @@ export default function OrganizationInfoListDriver() {
         <ReCard>
             <CardHeader sx={{ textAlign: 'left' }} title="Rides Info" />
             <Divider variant="middle" />
-            <CardContent>
+            {driverRideInfo.length===0 ? <Typography variant="h6" sx={{mt:10,textAlign: "center"}}>No Rides</Typography> : <CardContent>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     {
                         driverRideInfo.map((ride) => {
@@ -30,7 +31,7 @@ export default function OrganizationInfoListDriver() {
                         })
                     }
                 </List>
-            </CardContent>
+            </CardContent>}
         </ReCard>
 
     );

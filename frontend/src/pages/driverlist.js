@@ -17,12 +17,14 @@ import {
   TableHead,
   TableRow,
   Grid,
+  Typography,
 } from '@mui/material';
 // import { Scrollbar } from '../../components/scrollbar';
 // import { SeverityPill } from '../../components/severity-pill';
 import { MainState } from "../context/MainContext"
 import RidersChartItem from "../sections/overview/riderschartItem"
 import NavBar from '../components/Navbar/Navbar';
+import Loading from '../components/Loading';
 
 const DriverList = () => {
   const { getAllDrivers, driverList, loading } = MainState();
@@ -45,10 +47,16 @@ const DriverList = () => {
     setPage(0);
   };
   if (loading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
   if (driverList.length === 0) {
-    return <div>No Rides</div>
+    return <Typography sx={{
+      textAlign: "center",
+      fontSize: "2rem",
+      fontWeight: "bold",
+      color: "#000000",
+      mt: 10
+    }}>No drivers Joined</Typography>
   }
   return (
     <>

@@ -17,6 +17,7 @@ import {
   TableHead,
   TableRow,
   Grid,
+  Typography
 } from '@mui/material';
 // import { Scrollbar } from '../../components/scrollbar';
 // import { SeverityPill } from '../../components/severity-pill';
@@ -51,7 +52,7 @@ export const RidersChart = (props) => {
       <CardHeader title="Organization Rides" />
       {/* <Scrollbar sx={{ flexGrow: 1 }}> */}
       {
-        orders.length === 0 ? <Loading /> :
+        orders.length === 0 ? <Typography variant="h6" sx={{textAlign: "center", my:4}}>No Rides</Typography> :
           <>
             <Grid item xs={12} sm={12} md={12} lg={12} sx={{ "overflow-x": "auto" }}>
               <Table>

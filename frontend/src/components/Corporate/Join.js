@@ -58,11 +58,11 @@ const Join = () => {
               <Tab label="driver" value="driver" />
               <Tab label="employee" value="employee" />
             </Tabs> */}
-            {CurrentUser.userInf.role === "driver" && (<ListOfOrgs/>)}
+            {CurrentUser?.userInf.role === "driver" && (<ListOfOrgs/>)}
             {/* {method === "driver" && (
               <ListOfOrgs/>
             )} */}
-            {CurrentUser.userInf.role === "passenger" && (
+            {CurrentUser?.userInf.role === "passenger" && (
               <form noValidate onSubmit={handleSubmitOfEmployee}>
                 <Stack spacing={3}>
                   <TextField

@@ -55,10 +55,9 @@ const RidersChartItem = ({ order }) => {
                             <Step active={true} key={step.label}>
                                 <StepLabel
                                     icon={
-                                        <Avatar
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsiB9yl1za6EvJltqYre7MABVe3uMPWGhtbQ&usqp=CAU"
-                                            sx={{ borderRadius: "20%", height: "30px", width: "30px" }}
-                                        />
+                                        <Avatar  sx={{ borderRadius: "20%", height: "30px", width: "30px" }}
+                                            >{step.name.substring(0,1).toUpperCase()}</Avatar>
+                                        
                                     }
                                 >
                                     {step.name}

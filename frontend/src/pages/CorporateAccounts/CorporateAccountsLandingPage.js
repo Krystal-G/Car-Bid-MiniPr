@@ -1,9 +1,28 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
 import { Button, Typography, Link } from "@mui/material";
 import Navbar from "../../components/Navbar/Navbar";
 
 const CorporateAccountsLandingPage = () => {
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const navigate = useNavigate();
+  const handleClickCreateOrg = () => {
+    if (user) {
+      navigate("/createorg");
+    }
+    else {
+      navigate("/login");
+    }
+  }
+  const handleClickJoinOrg = () => {
+    if (user) {
+      navigate("/corpacauth");
+    }
+    else {
+      navigate("/login");
+    }
+  }
   return (
     <Box>
       <Navbar />
@@ -41,45 +60,45 @@ const CorporateAccountsLandingPage = () => {
             Corporate Accounts
           </Typography>
           <Box sx={{ display: "flex", mb: "30px" }}>
-            <Link href="/corpacauth" sx={{textDecoration:'none'}}>
-              <Button
-                sx={{
-                  mr: "20px",
-                  fontFamily: "inherit",
-                  fontWeight: "600",
-                  backgroundColor: "#8330C2",
+            <Button
+              sx={{
+                mr: "20px",
+                fontFamily: "inherit",
+                fontWeight: "600",
+                backgroundColor: "#8330C2",
+                color: "white",
+                borderRadius: "70px",
+                width: "fit-content",
+                fontSize: { xs: "12px", sm: "15px", md: "15px" },
+                p: "20px",
+                ":hover": {
+                  backgroundColor: "#A86ED4",
                   color: "white",
-                  borderRadius: "70px",
-                  width: "fit-content",
-                  fontSize: { xs: "12px", sm: "15px", md: "15px" },
-                  p: "20px",
-                  ":hover": {
-                    backgroundColor: "#A86ED4",
-                    color: "white",
-                  },
-                }}
-              >
-                Join Organization
-              </Button>
-            </Link>
-            <Link href="/createorg" sx={{textDecoration:'none'}}>
-              <Button
-                sx={{
-                  fontFamily: "inherit",
-                  border: 1,
-                  fontWeight: "600",
-                  borderColor: "#8330C2",
-                  color: "#8330C2",
-                  borderRadius: "70px",
-                  width: "fit-content",
-                  fontSize: { xs: "12px", sm: "15px", md: "15px" },
-                  p: "20px",
-                  ":hover": {},
-                }}
-              >
-                Create Organization
-              </Button>
-            </Link>
+                },
+              }} onClick={handleClickJoinOrg}
+            >
+              Join Organization
+            </Button>
+            {
+              user && user.userInf.role === "passenger" && !user.userInf.user.isAdmin && (
+                <Button
+                  sx={{
+                    fontFamily: "inherit",
+                    border: 1,
+                    fontWeight: "600",
+                    borderColor: "#8330C2",
+                    color: "#8330C2",
+                    borderRadius: "70px",
+                    width: "fit-content",
+                    fontSize: { xs: "12px", sm: "15px", md: "15px" },
+                    p: "20px",
+                    ":hover": {},
+                  }}
+                  onClick={handleClickCreateOrg}
+                >
+                  Create Organization
+                </Button>)
+            }
           </Box>
         </Box>
         <Box

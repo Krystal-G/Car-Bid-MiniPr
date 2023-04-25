@@ -23,26 +23,32 @@ import CorporateAccountAuthForCreate from "./pages/CorporateAccountAuthForCreate
 import AdminDashboard from "./pages/AdminDashboard";
 import EmployeeList from "./pages/employeelist";
 import DriverList from "./pages/driverlist";
+import FlashMessage from "./components/FlashMessage";
+import { MainState } from "./context/MainContext";
 
 function App() {
   // const {} = React.useContext(MainContext);
+  const {notification,setNotification} = MainState();
   const user = JSON.parse(localStorage.getItem("userInfo"));
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/corpac" element={<CorporateAccountsLandingPage />} />
-      {!user && <Route path="/login" element={<Auth />} />}
-      {!user?.userInf.user.organization && <Route path="/corpacauth" element={<CorporateAccountAuth />} />}
-      {user?.userInf.role==="passenger" && <Route path="/userinfo" element={<UserInfo />} />}
-      {user?.userInf.role==="driver" && <Route path="/driverinfo" element={<DriverInfo />} />}
-      {user && <Route path="/profile" element={<Profile />} />}
-      {!user?.userInf.user.isAdmin && <Route path="/createorg" element={<CorporateAccountAuthForCreate />} />}
+    <>
+      <FlashMessage message={notification.message} severity={notification.severity} open={notification.open} setNotification={setNotification} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/corpac" element={<CorporateAccountsLandingPage />} />
+        {!user && <Route path="/login" element={<Auth />} />}
+        {!user?.userInf.user.organization && <Route path="/corpacauth" element={<CorporateAccountAuth />} />}
+        {user?.userInf.role === "passenger" && <Route path="/userinfo" element={<UserInfo />} />}
+        {user?.userInf.role === "driver" && <Route path="/driverinfo" element={<DriverInfo />} />}
+        {user && <Route path="/profile" element={<Profile />} />}
+        {!user?.userInf?.user?.isAdmin && <Route path="/createorg" element={<CorporateAccountAuthForCreate />} />}
 
-      {user?.user.isAdmin && <Route path="/admindashboard" element={<AdminDashboard />} />}
-      {user?.user.isAdmin && <Route path="/employeelist" element={<EmployeeList />} />}
-      {user?.user.isAdmin && <Route path="/driverlist" element={<DriverList />} />}
+        {user?.userInf?.user?.isAdmin && <Route path="/admindashboard" element={<AdminDashboard />} />}
+        {user?.userInf?.user?.isAdmin && <Route path="/employeelist" element={<EmployeeList />} />}
+        {user?.userInf?.user?.isAdmin && <Route path="/driverlist" element={<DriverList />} />}
 
-    </Routes>
+      </Routes>
+    </>
 
   );
 }

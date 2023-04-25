@@ -13,36 +13,51 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = [
-  {
-    link: "/#section1",
-    name: "Features",
-  },
-  {
-    link: "/#section2",
-    name: "Our Team",
-  },
-  {
-    link: localStorage.length? "/":"/login",
-    name: localStorage.length?"Logout":"Login",
-  },
-]
-const settings = [
-  {
-    link: "/profile",
-    name: "Profile",
-  },
-  {
-    link: "/userinfo",
-    name: "Dashboard",
-  },
-  {
-    link: "/",
-    name: "Logout",
-  },
-];
+
 const HomePageNavbar = () => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
+  let link;
+
+  if (user?.userInf?.role === 'passenger') {
+    if (user?.userInf?.user?.isAdmin) {
+      link = '/admindashboard'
+    }
+    else {
+      link = '/userinfo'
+    }
+  }
+  else {
+
+    link = '/driverinfo'
+  }
+  const pages = [
+    {
+      link: "/#section1",
+      name: "Features",
+    },
+    {
+      link: "/#section2",
+      name: "Our Team",
+    },
+    {
+      link: localStorage.length? "/":"/login",
+      name: localStorage.length?"Logout":"Login",
+    },
+  ]
+  const settings = [
+    {
+      link: "/profile",
+      name: "Profile",
+    },
+    {
+      link: link,
+      name: "Dashboard",
+    },
+    {
+      link: "/",
+      name: "Logout",
+    },
+  ];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -204,7 +219,7 @@ const HomePageNavbar = () => {
           {user? <Box sx={{ flexGrow: 0, marginLeft: 'auto', alignItems:"flex-end" }}>
             <Tooltip title="Open settings">
               <IconButton  onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar  alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar>{user?.userInf?.user?.name.substring(0,1).toUpperCase()}</Avatar>
               </IconButton>
             </Tooltip>
             <Menu

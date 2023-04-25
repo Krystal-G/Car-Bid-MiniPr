@@ -50,7 +50,8 @@ const AdminDashboard = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
+          backgroundColor: 'backgroundInfo.main'
         }}
       >
         <Container maxWidth="xl">
@@ -104,7 +105,7 @@ const AdminDashboard = () => {
                 difference={16}
                 positive={false}
                 sx={{ height: '100%' }}
-                value="7"
+                value={allRides.length}
               />
             </Grid>
             <Grid

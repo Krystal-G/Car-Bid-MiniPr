@@ -10,15 +10,6 @@ import { useEffect } from "react";
 const OrganisationInfo = () => {
   const {getOrgById,orgDetails,loading} = MainState();
   const CurrentUser = JSON.parse(localStorage.getItem("userInfo")).userInf;
-  if (loading) {
-    return (<ReCard>
-    <CardHeader sx={{textAlign:'left'}} title="Organisation Info" />
-    <Divider variant="middle" />
-    <CardContent>
-      loading
-    </CardContent>
-  </ReCard>)
-  }
   
   if(CurrentUser.role === "passenger"){
     const orgInfo = {
