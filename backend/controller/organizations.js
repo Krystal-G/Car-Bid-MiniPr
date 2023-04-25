@@ -324,13 +324,13 @@ exports.assignRides = async (req, res, next) => {
             host: 'smtp.elasticemail.com',
             port: 2525,
             auth: {
-              user: 'jaimehta0724@gmail.com',
+              user: 'lcs2020021@iiitl.ac.in',
               pass: process.env.NODEMAILER_PASS
             }
           });
 
           const mailOptions = {
-            from: 'jaimehta0724@gmail.com',
+            from: 'lcs2020021@iiitl.ac.in',
             to: passenger.email,
             subject: 'Ride Details',
             html: `<p>Hi ${passenger.name}</p>
