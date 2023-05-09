@@ -1,7 +1,7 @@
 
 # Corporate Ride Bookings App
 
-This is a web application for booking corporate rides, built using the MERN stack.
+This is a web application for booking corporate rides, built using the MERN stack.Visit the site [here]([https://www.example.com](https://delightful-cat-4db293.netlify.app/)
 
 
 ## Screenshots
@@ -32,4 +32,3 @@ This is a web application for booking corporate rides, built using the MERN stac
 - Material UI: CSS framework for styling user interface components
 - Context: state management library for React applications
 - JWT: JSON Web Tokens for secure authentication
-## Site Link
