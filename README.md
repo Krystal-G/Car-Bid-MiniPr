@@ -6,15 +6,15 @@ This is a web application for booking corporate rides, built using the MERN stac
 
 ## Screenshots
 
-![App Screenshot](https://drive.google.com/file/d/1mIco4t_fxW69zW-xSI6MpRWWaA9lWriu/view?usp=sharing)
+![App Screenshot](https://github.com/Krystal-G/Car-Bid-MiniPr/blob/main/Screenshots/Screenshot%202023-04-25%20180653.png?raw=true)
 
-![App Screenshot](https://drive.google.com/file/d/1mIco4t_fxW69zW-xSI6MpRWWaA9lWriu/view?usp=sharing)
+![App Screenshot](https://github.com/Krystal-G/Car-Bid-MiniPr/blob/main/Screenshots/Screenshot%202023-04-25%20181957.png?raw=true)
 
-![App Screenshot](https://drive.google.com/file/d/1mIco4t_fxW69zW-xSI6MpRWWaA9lWriu/view?usp=sharing)
+![App Screenshot](https://github.com/Krystal-G/Car-Bid-MiniPr/blob/main/Screenshots/Screenshot%202023-04-25%20182358.png?raw=true)
 
-![App Screenshot](https://drive.google.com/file/d/1mIco4t_fxW69zW-xSI6MpRWWaA9lWriu/view?usp=sharing)
+![App Screenshot](https://github.com/Krystal-G/Car-Bid-MiniPr/blob/main/Screenshots/Screenshot%202023-04-25%20182715.png?raw=true)
 
-![App Screenshot](https://drive.google.com/file/d/1mIco4t_fxW69zW-xSI6MpRWWaA9lWriu/view?usp=sharing)
+![App Screenshot](https://github.com/Krystal-G/Car-Bid-MiniPr/blob/main/Screenshots/Screenshot%202023-04-25%20183139.png?raw=true)
 
 
 
@@ -32,3 +32,4 @@ This is a web application for booking corporate rides, built using the MERN stac
 - Material UI: CSS framework for styling user interface components
 - Context: state management library for React applications
 - JWT: JSON Web Tokens for secure authentication
+## Site Link
