@@ -2,6 +2,7 @@
 # Corporate Ride Bookings App
 
 This is a web application for booking corporate rides, built using the MERN stack.Visit the site [here](https://delightful-cat-4db293.netlify.app/)
+[updated link](https://65aa56251c23c41140d4cfdd--voluble-tapioca-4ee01e.netlify.app/)
 
 
 ## Screenshots
